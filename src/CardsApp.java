@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * Main app logic interface
+ */
 public class CardsApp {
     private final Scanner scanner;
     private final FlashcardDatabase db;
@@ -9,6 +12,9 @@ public class CardsApp {
         db = new FlashcardDatabase("jdbc:sqlite:./database/db.sqlite");
     }
 
+    /**
+     * Menu display for operation choice
+     */
     public void menu() {
         System.out.println("\n" + "_".repeat(30));
         System.out.println("(N)ew card");
@@ -20,7 +26,9 @@ public class CardsApp {
     }
 
 
-
+    /**
+     * Main logic loop
+     */
     public void run() {
         System.out.println("====== CARDSFLASH ======");
         menu();
@@ -37,6 +45,9 @@ public class CardsApp {
         }
     }
 
+    /**
+     * Card creation interface
+     */
     public void new_card() {
         System.out.println("\n--- New Card ---");
         System.out.print("Question\n>");
@@ -48,6 +59,9 @@ public class CardsApp {
         menu();
     }
 
+    /**
+     * Card update interface
+     */
     public void edit_card() {
         System.out.println("\n--- Edit Card ---");
         System.out.println("ID\n>");
@@ -64,6 +78,9 @@ public class CardsApp {
         menu();
     }
 
+    /**
+     * Card deletion interface
+     */
     public void delete_card() {
         System.out.println("\n--- Delete Card ---");
         System.out.println("ID\n>");
@@ -73,6 +90,9 @@ public class CardsApp {
         menu();
     }
 
+    /**
+     * Displays a random sequence of 10 cards
+     */
     public void random_cards() {
         System.out.println("\n--- Random Cards ---");
 
@@ -106,6 +126,9 @@ public class CardsApp {
     }
 
 
+    /**
+     * Shows all cards information
+     */
     public void all_cards() {
         db.print_all_flashcards();
         menu();
