@@ -22,6 +22,13 @@ public class Flashcard {
         this.updated_on = this.created_on;
     }
 
+    public Flashcard(String question, String answer, LocalDateTime created_on, LocalDateTime updated_on) {
+        this.question = question;
+        this.answer = answer;
+        this.created_on = created_on;
+        this.updated_on = updated_on;
+    }
+
     // Accessors
 
     public String get_question() {
