@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jdbi.jdbi3.core" level="project" />
+    <orderEntry type="library" name="xerial.sqlite.jdbc" level="project" />
   </component>
 </module>
