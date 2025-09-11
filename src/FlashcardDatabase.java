@@ -59,27 +59,21 @@ public class FlashcardDatabase {
         );
     }
 
-    public void get_all_flashcards_with_ids() {
+    public void print_all_flashcards() {
         jdbi.withHandle(handle ->
-                handle.createQuery("SELECT id, question, answer FROM flashcards")
-                        .map((rs, _) -> String.format("ID: %d | %s -> %s",
+                handle.createQuery("SELECT id, question, answer, created_on, updated_on FROM flashcards")
+                        .map((rs, ctx) -> String.format(
+                                "%d | %s -> %s | %s | %s",
                                 rs.getInt("id"),
+                                rs.getString("answer"),
                                 rs.getString("question"),
-                                rs.getString("answer")))
+                                rs.getString("updated_on"),
+                                rs.getString("created_on")
+                        ))
                         .list()
         ).forEach(System.out::println);
     }
 
-    public void print_all_flashcards() {
-        jdbi.withHandle(handle ->
-                handle.createQuery("SELECT question, answer, created_on, updated_on FROM flashcards")
-                        .map((rs, _) -> new Flashcard(
-                                rs.getString("question"),
-                                rs.getString("answer")
-                        ))
-                        .list()
-        ).forEach(fc -> System.out.println(fc.get_question() + " -> " + fc.get_answer()));
-    }
 
     public static void main(String[] args) {
         new java.io.File("database").mkdirs();
@@ -93,7 +87,7 @@ public class FlashcardDatabase {
         db.insert_flashcard(fc2);
 
         System.out.println("All flashcards:");
-        db.get_all_flashcards_with_ids();
+        db.print_all_flashcards();
 
         // Mettre à jour une flashcard
         db.update_flashcard(1, "Capitale de la France?", "Paris");
@@ -102,6 +96,6 @@ public class FlashcardDatabase {
         db.delete_flashcard(2);
 
         System.out.println("\nAfter updates:");
-        db.get_all_flashcards_with_ids();
+        db.print_all_flashcards();
     }
 }
