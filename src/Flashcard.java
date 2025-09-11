@@ -1,4 +1,4 @@
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Flashcard made of a question and an answer
@@ -6,7 +6,8 @@ import java.util.Date;
 public class Flashcard {
     private String question;
     private String answer;
-    private Date date;
+    private final LocalDateTime created_on;
+    private LocalDateTime updated_on;
 
     /**
      * Creates a new flashcard with a question and an answer
@@ -17,6 +18,7 @@ public class Flashcard {
     public Flashcard(String question, String answer) {
         this.question = question;
         this.answer = answer;
+        this.created_on = LocalDateTime.now();
     }
 
     // Accessors
@@ -29,8 +31,12 @@ public class Flashcard {
         return answer;
     }
 
-    public Date get_date() {
-        return date;
+    public LocalDateTime get_created_on() {
+        return created_on;
+    }
+
+    public LocalDateTime get_updated_on() {
+        return updated_on;
     }
 
     // Mutators
@@ -43,8 +49,10 @@ public class Flashcard {
         this.answer = answer;
     }
 
-    public void set_date(Date date) {
-        this.date = date;
+    public void set_updated_on(LocalDateTime date) {
+        this.updated_on = date;
     }
+
+
 
 }
