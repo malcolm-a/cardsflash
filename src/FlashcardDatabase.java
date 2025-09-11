@@ -59,10 +59,51 @@ public class FlashcardDatabase {
         );
     }
 
+    public Flashcard get_flashcard_by_id(int id) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT question, answer, created_on, updated_on FROM flashcards WHERE id = :id")
+                        .bind("id", id)
+                        .map((rs, _) -> new Flashcard(
+                                rs.getString("question"),
+                                rs.getString("answer"),
+                                java.time.LocalDateTime.parse(rs.getString("created_on")),
+                                java.time.LocalDateTime.parse(rs.getString("updated_on"))
+                        ))
+                        .findFirst()
+                        .orElse(null)
+        );
+    }
+
+
+    public java.util.List<Integer> get_all_ids() {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT id FROM flashcards ORDER BY id")
+                        .mapTo(Integer.class)
+                        .list()
+        );
+    }
+
+    public void print_flashcard_by_id(int id) {
+        Flashcard fc = get_flashcard_by_id(id);
+        if (fc != null) {
+            System.out.printf("%d | %s -> %s | %s | %s%n",
+                    id,
+                    fc.get_question(),
+                    fc.get_answer(),
+                    fc.get_created_on().toString(),
+                    fc.get_updated_on().toString()
+            );
+        } else {
+            System.out.println("Error: no flashcard found with ID " + id);
+        }
+    }
+
+
+
     public void print_all_flashcards() {
         jdbi.withHandle(handle ->
                 handle.createQuery("SELECT id, question, answer, created_on, updated_on FROM flashcards")
-                        .map((rs, ctx) -> String.format(
+                        .map((rs, _) -> String.format(
                                 "%d | %s -> %s | %s | %s",
                                 rs.getInt("id"),
                                 rs.getString("answer"),
@@ -97,5 +138,7 @@ public class FlashcardDatabase {
 
         System.out.println("\nAfter updates:");
         db.print_all_flashcards();
+
+        System.out.println(db.get_flashcard_by_id(1));
     }
 }
