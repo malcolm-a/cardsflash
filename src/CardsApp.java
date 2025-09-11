@@ -16,7 +16,7 @@ public class CardsApp {
      * Menu display for operation choice
      */
     public void menu() {
-        System.out.println("\n" + "_".repeat(30));
+        System.out.println("\n" + "_".repeat(30) + "\n");
         System.out.println("(N)ew card");
         System.out.println("(E)dit card");
         System.out.println("(D)elete card");
