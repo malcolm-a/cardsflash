@@ -19,6 +19,7 @@ public class Flashcard {
         this.question = question;
         this.answer = answer;
         this.created_on = LocalDateTime.now();
+        this.updated_on = this.created_on;
     }
 
     // Accessors
