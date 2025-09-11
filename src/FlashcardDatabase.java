@@ -83,6 +83,21 @@ public class FlashcardDatabase {
         );
     }
 
+    public java.util.List<Flashcard> get_random_flashcards(int limit) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT question, answer, created_on, updated_on FROM flashcards ORDER BY RANDOM() LIMIT :limit")
+                        .bind("limit", limit)
+                        .map((rs, _) -> new Flashcard(
+                                rs.getString("question"),
+                                rs.getString("answer"),
+                                java.time.LocalDateTime.parse(rs.getString("created_on")),
+                                java.time.LocalDateTime.parse(rs.getString("updated_on"))
+                        ))
+                        .list()
+        );
+    }
+
+
     public void print_flashcard_by_id(int id) {
         Flashcard fc = get_flashcard_by_id(id);
         if (fc != null) {
@@ -106,8 +121,8 @@ public class FlashcardDatabase {
                         .map((rs, _) -> String.format(
                                 "%d | %s -> %s | %s | %s",
                                 rs.getInt("id"),
-                                rs.getString("answer"),
                                 rs.getString("question"),
+                                rs.getString("answer"),
                                 rs.getString("updated_on"),
                                 rs.getString("created_on")
                         ))
