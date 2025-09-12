@@ -23,6 +23,7 @@ public class CardsApp {
         System.out.println("(R)andom Cards");
         System.out.println("(A)ll cards");
         System.out.println("(Q)uit");
+        System.out.print("\n>");
     }
 
 
