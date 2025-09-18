@@ -22,6 +22,7 @@ public class CardsApp {
         System.out.println("(D)elete card");
         System.out.println("(R)andom Cards");
         System.out.println("(A)ll cards");
+        System.out.println("e(X)port to JSON");
         System.out.println("(Q)uit");
         System.out.print("\n>");
     }
@@ -41,6 +42,7 @@ public class CardsApp {
                 case "D", "d" -> delete_card();
                 case "R", "r" -> random_cards();
                 case "A", "a" -> all_cards();
+                case "X", "x" -> export_json();
                 case "Q", "q" -> running = false;
             }
         }
@@ -123,6 +125,15 @@ public class CardsApp {
         }
 
         System.out.println("\nSequence completed!");
+        menu();
+    }
+
+    public void export_json() {
+        System.out.println("\n--- Export to JSON ---");
+        System.out.print("Filename\n>");
+        String filename = scanner.nextLine();
+        db.export_to_json(filename);
+        System.out.println("Successfully exported to " + filename);
         menu();
     }
 
