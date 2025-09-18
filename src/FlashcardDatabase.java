@@ -173,6 +173,44 @@ public class FlashcardDatabase {
         ).forEach(System.out::println);
     }
 
+/**
+ * Exports all flashcards to JSON format
+ *
+ * @param filename the output file path
+ */
+public void export_to_json(String filename) {
+    if (filename == null || filename.trim().isEmpty()) {
+        filename = "flashcards_export.json";
+    }
+
+    java.io.File file = new java.io.File(filename);
+    if (file.getParentFile() != null) {
+        file.getParentFile().mkdirs();
+    }
+
+    java.util.List<String> jsonCards = jdbi.withHandle(handle ->
+            handle.createQuery("SELECT id, question, answer, created_on, updated_on FROM flashcards")
+                    .map((rs, _) -> String.format(
+                            "  {\"id\":%d,\"question\":\"%s\",\"answer\":\"%s\",\"created_on\":\"%s\",\"updated_on\":\"%s\"}",
+                            rs.getInt("id"),
+                            rs.getString("question").replace("\"", "\\\""),
+                            rs.getString("answer").replace("\"", "\\\""),
+                            rs.getString("created_on"),
+                            rs.getString("updated_on")
+                    ))
+                    .list()
+    );
+
+    try (java.io.PrintWriter writer = new java.io.PrintWriter(file)) {
+        writer.println("[");
+        writer.println(String.join(",\n", jsonCards));
+        writer.println("]");
+        System.out.println("Export réussi: " + file.getAbsolutePath());
+    } catch (java.io.FileNotFoundException e) {
+        System.err.println("Erreur lors de l'export: " + e.getMessage());
+    }
+}
+
 
     public static void main(String[] args) {
         new java.io.File("database").mkdirs();
