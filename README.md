@@ -58,6 +58,7 @@ ______________________________
 (D)elete card
 (R)andom Cards
 (A)ll cards
+e(X)port to JSON
 (Q)uit
 ```
 
@@ -82,6 +83,10 @@ To review flashcards in random order, select the `(R)andom Cards` option. You wi
 ### All cards
 
 To view all flashcards, select the `(A)ll cards` option. You will be presented with a list of all your flashcards with their IDs and timestamps.
+
+### Export to JSON
+
+To export your flashcards to a JSON file, select the `(X)port to JSON` option. You will be prompted to enter the filename for the exported JSON file.
 
 ### Quit
 
